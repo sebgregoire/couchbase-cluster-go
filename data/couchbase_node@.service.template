@@ -15,6 +15,8 @@ ExecStartPre=/usr/bin/docker pull tleyden5iwx/couchbase-server-{{ .CB_VERSION }}
 ExecStartPre=/usr/bin/docker pull tleyden5iwx/couchbase-cluster-go:{{ .CONTAINER_TAG }}
 ExecStart=/bin/bash -c '/usr/bin/docker run --name couchbase -v /opt/couchbase/var:/opt/couchbase/var --net=host tleyden5iwx/couchbase-server-{{ .CB_VERSION }}:{{ .CONTAINER_TAG }} couchbase-start'
 ExecStop=/bin/bash -c '/usr/bin/docker run --net=host tleyden5iwx/couchbase-cluster-go:{{ .CONTAINER_TAG }} update-wrapper couchbase-cluster remove-and-rebalance --local-ip $COREOS_PRIVATE_IPV4; sudo docker stop couchbase'
+MemoryAccounting=true
+MemoryLimit=512m
 
 [X-Fleet]
 Conflicts=couchbase_node*.service
